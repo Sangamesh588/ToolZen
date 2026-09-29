@@ -1,3 +1,5 @@
+
+import Script from "next/script";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -17,6 +19,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  other: {
+  "google-adsense-account": "ca-pub-7244024145280038",
+},
   metadataBase: new URL("https://ToolGen.app"),
   title: {
     default: "ToolGen - 100% Free Online Tools & Calculators Platform",
@@ -93,7 +98,14 @@ export default function RootLayout({
           <CommandPalette />
           <main className="flex-1">{children}</main>
           <Footer />
-        </AppProvider>
+</AppProvider>
+
+<Script
+  async
+  strategy="afterInteractive"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7244024145280038"
+  crossOrigin="anonymous"
+/>
       </body>
     </html>
   );
