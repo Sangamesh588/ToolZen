@@ -12,11 +12,11 @@ export function formatNumber(num: number, decimals: number = 2): string {
   }).format(num);
 }
 
-export function formatCurrency(num: number, currency: string = "USD"): string {
-  if (isNaN(num)) return "$0";
-  return new Intl.NumberFormat("en-US", {
+export function formatCurrency(num: number, currency: string = "INR"): string {
+  if (isNaN(num)) return "₹0";
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: currency,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 0,
   }).format(num);
 }

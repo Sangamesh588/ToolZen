@@ -130,6 +130,38 @@ export const CATEGORIES: CategoryInfo[] = [
 export const TOOLS: ToolItem[] = [
   // 1. STUDENT TOOLS
   {
+    id: "cover-letter-generator",
+    slug: "cover-letter-generator",
+    name: "Cover Letter Generator",
+    category: "student",
+    shortDescription: "Generate customized cover letters for freshers, internships, and job applications.",
+    metaTitle: "Cover Letter Generator - Fresher & Internship Cover Letters",
+    metaDescription: "Generate professional cover letters online for free. Tailored cover letter templates for freshers, college students, internships, and experienced roles. Instant copy & print.",
+    keywords: ["cover letter generator", "fresher cover letter", "internship cover letter", "college cover letter", "job application letter"],
+    icon: "FileText",
+    isPopular: true,
+    isNew: true,
+    rating: 4.9,
+    reviewsCount: 16800,
+    instructions: [
+      "Select your application type: Fresher, Internship, or Professional.",
+      "Enter your name, contact details, target company, and role.",
+      "List your top skills and highlighted project or academic coursework.",
+      "Instantly preview your customized formal cover letter, copy to clipboard, or download."
+    ],
+    faqs: [
+      {
+        question: "How do freshers write a cover letter with no work experience?",
+        answer: "Focus on academic projects, key technical skills, coursework, and your enthusiasm for the target role. Our Fresher template highlights these automatically."
+      },
+      {
+        question: "Can I customize the generated cover letter?",
+        answer: "Yes! You can edit the text directly in the live preview box before copying or downloading."
+      }
+    ],
+    features: ["Fresher, Internship & Experienced modes", "Live inline document editor", "One-click copy to clipboard", "Print & Download .txt"]
+  },
+  {
     id: "cgpa-calculator",
     slug: "cgpa-calculator",
     name: "CGPA Calculator",
@@ -412,7 +444,7 @@ export const TOOLS: ToolItem[] = [
     rating: 4.9,
     reviewsCount: 41800,
     instructions: [
-      "Enter loan principal amount (e.g., $100,000).",
+      "Enter loan principal amount (e.g., ₹10,00,000).",
       "Enter annual interest rate percentage (e.g., 7.5%).",
       "Select loan tenure in years or months.",
       "See monthly EMI, total interest, total amount payable, and year-by-year schedule."
@@ -519,7 +551,7 @@ export const TOOLS: ToolItem[] = [
     rating: 4.8,
     reviewsCount: 13500,
     instructions: [
-      "Enter target savings amount (e.g. $50,000 for house down payment).",
+      "Enter target savings amount (e.g. ₹5,00,000 for house down payment).",
       "Enter current savings and deadline in months or years.",
       "Get exact required monthly deposit."
     ],

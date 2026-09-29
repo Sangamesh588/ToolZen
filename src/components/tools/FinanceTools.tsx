@@ -136,7 +136,7 @@ export function EmiCalculator() {
 
 // 2. SIP CALCULATOR
 export function SipCalculator() {
-  const [monthlyInvest, setMonthlyInvest] = useState(500);
+  const [monthlyInvest, setMonthlyInvest] = useState(5000);
   const [expectedReturn, setExpectedReturn] = useState(12);
   const [tenureYears, setTenureYears] = useState(10);
 
@@ -161,9 +161,9 @@ export function SipCalculator() {
           </div>
           <input
             type="range"
-            min="50"
-            max="10000"
-            step="50"
+            min="500"
+            max="100000"
+            step="500"
             value={monthlyInvest}
             onChange={(e) => setMonthlyInvest(Number(e.target.value))}
             className="w-full accent-emerald-600"
@@ -238,7 +238,7 @@ export function SipCalculator() {
 
 // 3. COMPOUND INTEREST CALCULATOR
 export function CompoundInterestCalculator() {
-  const [principal, setPrincipal] = useState(10000);
+  const [principal, setPrincipal] = useState(50000);
   const [rate, setRate] = useState(7);
   const [years, setYears] = useState(10);
   const [frequency, setFrequency] = useState(12); // 1 = yearly, 4 = quarterly, 12 = monthly, 365 = daily
@@ -257,7 +257,7 @@ export function CompoundInterestCalculator() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-            Initial Principal ($)
+            Initial Principal (₹)
           </label>
           <input
             type="number"
@@ -327,8 +327,8 @@ export function CompoundInterestCalculator() {
 
 // 4. SAVINGS GOAL CALCULATOR
 export function SavingsGoalCalculator() {
-  const [targetAmount, setTargetAmount] = useState(20000);
-  const [currentSavings, setCurrentSavings] = useState(2000);
+  const [targetAmount, setTargetAmount] = useState(500000);
+  const [currentSavings, setCurrentSavings] = useState(50000);
   const [monthsToSave, setMonthsToSave] = useState(24);
 
   const needed = Math.max(0, targetAmount - currentSavings);
@@ -339,7 +339,7 @@ export function SavingsGoalCalculator() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-            Target Goal ($)
+            Target Goal (₹)
           </label>
           <input
             type="number"
@@ -350,7 +350,7 @@ export function SavingsGoalCalculator() {
         </div>
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-            Current Savings ($)
+            Current Savings (₹)
           </label>
           <input
             type="number"

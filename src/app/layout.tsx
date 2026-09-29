@@ -89,10 +89,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#070a12] text-slate-100 selection:bg-sky-500 selection:text-white antialiased">
+      <body className="min-h-full flex flex-col bg-[#f0f7ff] text-slate-900 selection:bg-sky-500 selection:text-white antialiased">
         <AppProvider>
           <Navbar />
           <CommandPalette />

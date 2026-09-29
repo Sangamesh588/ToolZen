@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 interface AppContextType {
   favorites: string[];
@@ -19,7 +19,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recents, setRecents] = useState<string[]>([]);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Load persisted client data after initial mount to avoid hydration mismatch
@@ -42,7 +42,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme]);
 
-  const toggleFavorite = (slug: string) => {
+  const toggleFavorite = useCallback((slug: string) => {
     setFavorites((prev) => {
       const exists = prev.includes(slug);
       const updated = exists ? prev.filter((s) => s !== slug) : [...prev, slug];
@@ -51,12 +51,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } catch {}
       return updated;
     });
-  };
+  }, []);
 
-  const isFavorite = (slug: string) => favorites.includes(slug);
+  const isFavorite = useCallback((slug: string) => favorites.includes(slug), [favorites]);
 
-  const addRecent = (slug: string) => {
+  const addRecent = useCallback((slug: string) => {
+    if (!slug) return;
     setRecents((prev) => {
+      if (prev[0] === slug) return prev;
       const filtered = prev.filter((s) => s !== slug);
       const updated = [slug, ...filtered].slice(0, 12);
       try {
@@ -64,15 +66,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } catch {}
       return updated;
     });
-  };
+  }, []);
 
-  const toggleTheme = () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    try {
-      localStorage.setItem("ToolGen_theme", nextTheme);
-    } catch {}
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const nextTheme = prev === "light" ? "dark" : "light";
+      try {
+        localStorage.setItem("ToolGen_theme", nextTheme);
+      } catch {}
+      return nextTheme;
+    });
+  }, []);
 
   // Keyboard shortcut for Cmd+K / Ctrl+K search palette
   useEffect(() => {

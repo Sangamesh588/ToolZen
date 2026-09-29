@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { PDFDocument, degrees, rgb, StandardFonts } from "pdf-lib";
+import { encryptPDF } from "@pdfsmaller/pdf-encrypt-lite";
 import {
   Upload,
   Download,
@@ -441,81 +442,13 @@ export function PdfPasswordProtector() {
 
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-
-      // Create a secure locked cover sheet & document certificate
-      const pages = pdfDoc.getPages();
-      const firstPage = pages[0];
-      const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-      // Stamp a security watermarking certificate banner on page 1
-      firstPage.drawRectangle({
-        x: 20,
-        y: firstPage.getHeight() - 30,
-        width: firstPage.getWidth() - 40,
-        height: 20,
-        color: rgb(0.05, 0.65, 0.95),
-        opacity: 0.15,
-      });
-
-      firstPage.drawText("[SECURE] ToolGen Encrypted Container - Password Protected File", {
-        x: 30,
-        y: firstPage.getHeight() - 24,
-        size: 9,
-        font,
-        color: rgb(0.05, 0.45, 0.75),
-      });
-
-      // Encrypt the payload using client-side Web Crypto AES-GCM
-      const enc = new TextEncoder();
-      const keyMaterial = await window.crypto.subtle.importKey(
-        "raw",
-        enc.encode(password),
-        { name: "PBKDF2" },
-        false,
-        ["deriveKey"]
-      );
-
-      const salt = window.crypto.getRandomValues(new Uint8Array(16));
-      const key = await window.crypto.subtle.deriveKey(
-        {
-          name: "PBKDF2",
-          salt,
-          iterations: 100000,
-          hash: "SHA-256",
-        },
-        keyMaterial,
-        { name: "AES-GCM", length: 256 },
-        false,
-        ["encrypt"]
-      );
-
-      const iv = window.crypto.getRandomValues(new Uint8Array(12));
-      const pdfBytes = await pdfDoc.save();
-      const ciphertext = await window.crypto.subtle.encrypt(
-        { name: "AES-GCM", iv },
-        key,
-        pdfBytes.buffer as ArrayBuffer
-      );
-
-      // Package into downloadable protected format
-      const packageData = {
-        app: "ToolGen Security",
-        filename: file.name,
-        hint: hint || "No hint provided",
-        salt: Array.from(salt),
-        iv: Array.from(iv),
-        payload: Array.from(new Uint8Array(ciphertext)),
-        timestamp: new Date().toISOString(),
-      };
-
-      const blob = new Blob([JSON.stringify(packageData, null, 2)], {
-        type: "application/json",
-      });
+      // Real standard PDF encryption so any viewer (Acrobat, Chrome, Edge, Preview) prompts for password
+      const encryptedBytes = await encryptPDF(new Uint8Array(arrayBuffer), password);
+      const blob = new Blob([encryptedBytes as Uint8Array<ArrayBuffer>], { type: "application/pdf" });
       setProtectedUrl(URL.createObjectURL(blob));
     } catch (err) {
       console.error(err);
-      setError("Failed to encrypt document. Please check the file.");
+      setError("Failed to protect document. Please make sure the PDF is not already encrypted.");
     } finally {
       setIsProtecting(false);
     }
@@ -623,18 +556,18 @@ export function PdfPasswordProtector() {
         <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/60 space-y-3">
           <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm">
             <ShieldCheck className="w-5 h-5" />
-            <span>Document Locked with AES-256 Encryption!</span>
+            <span>PDF Encrypted & Password Protected Successfully!</span>
           </div>
           <p className="text-xs text-slate-600 dark:text-neutral-400">
-            The secured container cannot be opened without the designated password.
+            Your PDF is now protected with standard 128-bit encryption. Any PDF reader (Adobe Acrobat, Chrome, Edge, Preview) will require your password to view the document.
           </p>
           <a
             href={protectedUrl}
-            download={`protected-${file?.name || "document"}.tgen`}
+            download={`protected-${file?.name || "document.pdf"}`}
             className="inline-flex items-center gap-2 py-2.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20"
           >
             <Download className="w-4 h-4" />
-            Download Protected Container
+            Download Protected PDF
           </a>
         </div>
       )}

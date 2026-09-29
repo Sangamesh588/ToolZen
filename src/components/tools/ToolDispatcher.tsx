@@ -9,6 +9,7 @@ import {
   GradeCalculator,
   SemesterGpaCalculator,
 } from "./StudentTools";
+import { CoverLetterGenerator } from "./CoverLetterGenerator";
 import {
   BmiCalculator,
   CalorieCalculator,
@@ -79,6 +80,8 @@ import {
 export function ToolDispatcher({ tool }: { tool: ToolItem }) {
   switch (tool.slug) {
     // Student
+    case "cover-letter-generator":
+      return <CoverLetterGenerator />;
     case "cgpa-calculator":
       return <CgpaCalculator />;
     case "percentage-calculator":
