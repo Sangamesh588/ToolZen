@@ -19,16 +19,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  other: {
-  "google-adsense-account": "ca-pub-7244024145280038",
-},
-  metadataBase: new URL("https://ToolGen.app"),
+  metadataBase: new URL("https://toolgen.app"),
+
   title: {
     default: "ToolGen - 100% Free Online Tools & Calculators Platform",
     template: "%s | ToolGen",
   },
+
   description:
     "Free, fast, and mobile-friendly online tools platform. Calculate CGPA, estimate EMI, compress images, merge PDFs, generate QR codes, and convert units directly in your browser with zero latency.",
+
   keywords: [
     "online tools",
     "free calculators",
@@ -41,9 +41,11 @@ export const metadata: Metadata = {
     "unit converter",
     "productivity tools",
   ],
+
   authors: [{ name: "ToolGen Engineering" }],
   creator: "ToolGen",
   publisher: "ToolGen",
+
   robots: {
     index: true,
     follow: true,
@@ -55,15 +57,21 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+  other: {
+    "google-adsense-account": "ca-pub-7244024145280038",
+  },
+
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ToolGen.app",
+    url: "https://toolgen.app",
     siteName: "ToolGen",
     title: "ToolGen - 100% Free Online Tools & Calculators Platform",
     description:
       "High-speed browser-based utilities: CGPA, EMI, Image Compressor, PDF Merger, QR Codes, and Unit Converters.",
   },
+
   twitter: {
     card: "summary_large_image",
     title: "ToolGen - Free Online Tools Platform",
@@ -92,22 +100,24 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <Script
+          id="google-adsense"
+          async
+          strategy="beforeInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7244024145280038"
+          crossOrigin="anonymous"
+        />
+      </head>
+
       <body className="min-h-full flex flex-col bg-[#f0f7ff] text-slate-900 selection:bg-sky-500 selection:text-white antialiased">
         <AppProvider>
           <Navbar />
           <CommandPalette />
           <main className="flex-1">{children}</main>
           <Footer />
-</AppProvider>
-
-<Script
-  async
-  strategy="afterInteractive"
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7244024145280038"
-  crossOrigin="anonymous"
-/>
+        </AppProvider>
       </body>
     </html>
   );
 }
-
